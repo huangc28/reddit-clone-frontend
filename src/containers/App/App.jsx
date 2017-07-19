@@ -4,7 +4,7 @@ import styles from './App.css'
 class App extends Component {
 	render () {
 		return (
-			<div className={styles.root}>
+			<div>
     		{this.props.children}
   		</div>
 		)
