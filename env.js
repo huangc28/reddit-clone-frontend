@@ -7,8 +7,8 @@ const devEnv = {
 }
 
 const prodEnv = {
-  CLIENT_API_HOST: 'http://reddit-clone.itchiheng.com:3005/api',
-  SERVER_API_HOST: 'http://localhost:3007',
+  CLIENT_API_HOST: 'http://127.0.0.1:3005/api',
+  SERVER_API_HOST: 'http://127.0.0.1:3007',
 }
 
 export default function env () {
