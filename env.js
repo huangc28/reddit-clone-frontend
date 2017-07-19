@@ -7,8 +7,8 @@ const devEnv = {
 }
 
 const prodEnv = {
-  CLIENT_API_HOST: 'http://localhost:3005/api',
-  SERVER_API_HOST: 'http://localhost:3007',
+  CLIENT_API_HOST: 'http://139.59.236.216/:3005/api',
+  SERVER_API_HOST: 'http://139.59.236.216/:3007',
 }
 
 export default function env () {
