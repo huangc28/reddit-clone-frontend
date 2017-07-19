@@ -39,8 +39,6 @@ export function * editThreadFlow (action) {
 export function * createThreadFlow (action) {
   const { payload: { topic } } = action
 
-  console.log('create thread flow topic', topic)
-
   try {
     const response = yield call(apis.createThread, topic)
 

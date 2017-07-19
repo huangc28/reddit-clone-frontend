@@ -79,10 +79,7 @@ const reducer = handleActions({
 	[fetchAllThreadsSuccess]: (state, action) => ({
 		...state,
 		loading: loadingState.READY,
-		data: [
-			...state.data,
-			...action.payload.threads,
-		],
+		data: action.payload.threads,
 	}),
 	[fetchAllThreadsFailed]: (state, action) => ({
 		...state,
@@ -116,7 +113,7 @@ const reducer = handleActions({
   }),
   [createThreadSuccess]: (state, action) => ({
     ...state,
-    data: state.data.unshift(action.payload.thread),
+    data: state.data.concat(action.payload.thread),
   }),
   [createThreadFailed]: (state, action) => ({
     ...state,
