@@ -5,7 +5,7 @@ import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
 import configureStore from './store/configureStore'
-import rootReducer from './reducers'
+import rootReducer from './redux/reducers'
 
 import routes from './routes'
 
