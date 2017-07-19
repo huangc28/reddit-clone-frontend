@@ -4,14 +4,23 @@ import React from 'react'
 import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
 import configureStore from './store/configureStore'
 import rootReducer from './redux/reducers'
-
 import routes from './routes'
 
 const initialState = window.__INITIAL_STATE__
 
 const store = configureStore(rootReducer, initialState)
+
+// initialize material muiTheme object.
+// providing the identical theme object on the server side too.
+// @issue: https://stackoverflow.com/questions/35481084/react-starter-kit-and-material-ui-useragent-should-be-supplied-in-the-muitheme
+export const muiTheme = getMuiTheme(null, {
+  userAgent: 'all',
+})
 
 if (module.hot) {
   module.hot.accept()
@@ -20,7 +29,9 @@ if (module.hot) {
 if (__CLIENT__) {
   const App = () => (
     <Provider store={store}>
-      <Router routes={routes} history={browserHistory} />
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <Router routes={routes} history={browserHistory} />
+      </MuiThemeProvider>
     </Provider>
   )
 
