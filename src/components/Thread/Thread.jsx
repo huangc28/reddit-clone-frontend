@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import IconButton from 'material-ui/IconButton'
 
 import styles from './Thread.css'
 
@@ -37,10 +38,14 @@ class Thread extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.voteBar}>
+
           {/* upvote */}
-          <div onClick={this.onUpvote}>
-            up
-          </div>
+          <IconButton
+            iconClassName="material-icons"
+            tooltip="Up Vote"
+          >
+            keyboard_arrow_up
+          </IconButton>
 
           {/* vote */}
           <div>
@@ -48,9 +53,12 @@ class Thread extends Component {
           </div>
 
           {/* downvote */}
-          <div onClick={this.onDownvote}>
-            down
-          </div>
+          <IconButton
+            iconClassName="material-icons"
+            tooltip="Down Vote"
+          >
+            keyboard_arrow_down
+          </IconButton>
         </div>
 
         {/* topic */}
