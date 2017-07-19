@@ -10,6 +10,7 @@ import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import morgan from 'morgan'
 import webpack from 'webpack'
+import proxy from 'http-proxy-middleware'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import fs from 'fs'
@@ -17,7 +18,7 @@ import fs from 'fs'
 import { renderFullPage, staticify, publicPath } from './utils/render'
 import configureStore from '../src/store/configureStore'
 import routes from '../src/routes'
-import rootReducer from '../src/reducers'
+import rootReducer from '../src/redux/reducers'
 
 const app = express()
 const webpackConfig = require('../webpack.config.js')({ dev: true })
@@ -31,6 +32,29 @@ app.use(morgan('combined', { stream: accessLogStream }))
 app.use('/', express.static(publicPath))
 
 app.use(staticify.middleware)
+
+const proxyOptions = {
+  target: 'http://localhost:3007',
+  logLevel: 'debug',
+  changeOrigin: true,
+  // pathRewrite: rewritePath, // path rewriting rule
+  onProxyReq: (proxyReq, req, res) => {
+    console.log('BRYAN: onproxyres', req.method)
+  },
+}
+
+/**
+ * I'm too lazy to specify every apis on the node side, so I use a proxy here.
+ *
+ * Proxy frontend request directly to backend.
+ * Prevent writing duplicated api on frontend and node side.
+ *
+ * @NOTE Proxy has to be placed in front of bodyParser, otherwise proxy will break.
+ * @issue http://stackoverflow.com/questions/26632854/socket-hangup-while-posting-request-to-node-http-proxy-node-js
+ *
+ * For example: http://localhost:3005/api/threads ---> http://localhost:3007/api/threads
+ */
+app.use('/api', proxy(proxyOptions))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
