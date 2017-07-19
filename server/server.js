@@ -16,6 +16,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import fs from 'fs'
 
+import env from '../env'
 import { muiTheme } from '../src/index'
 import { renderFullPage, staticify, publicPath } from './utils/render'
 import configureStore from '../src/store/configureStore'
@@ -36,7 +37,7 @@ app.use('/', express.static(publicPath))
 app.use(staticify.middleware)
 
 const proxyOptions = {
-  target: 'http://localhost:3007',
+  target: env().SERVER_API_HOST,
   logLevel: 'debug',
   changeOrigin: true,
   // pathRewrite: rewritePath, // path rewriting rule
