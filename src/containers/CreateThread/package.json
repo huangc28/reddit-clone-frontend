@@ -1,0 +1,6 @@
+{
+    "name": "CreateThread",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./CreateThread.jsx"
+}

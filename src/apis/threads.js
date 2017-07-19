@@ -15,7 +15,7 @@ export const editThread = params => (
 )
 
 export const createThread = topic => (
-  fetch.post(`${BASE_URL}/api/topic/${params.id}`, {
+  fetch.post(`${BASE_URL}/api/topic`, {
     topic,
   })
   .then(response => response.data)

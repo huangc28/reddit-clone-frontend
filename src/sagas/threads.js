@@ -1,6 +1,7 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects'
-import * as apis from '../apis/threads'
+import { browserHistory } from 'react-router'
 
+import * as apis from '../apis/threads'
 import * as actions from '../redux/threads'
 
 export function * fetchAllThreadsFlow (action) {
@@ -43,13 +44,13 @@ export function * createThreadFlow (action) {
   try {
     const response = yield call(apis.createThread, topic)
 
-    console.log('response', response)
-
     if (response.error) {
       throw new Error(response.error.message)
     }
 
     yield put(actions.createThreadSuccess(response.data))
+
+    browserHistory.push('/')
   } catch (err) {
     yield put(actions.createThreadFailed(err.message))
   }

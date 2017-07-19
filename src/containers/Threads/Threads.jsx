@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import RaisedButton from 'material-ui/RaisedButton'
+import { browserHistory } from 'react-router'
 
 import ThreadsList from '../../components/ThreadsList'
 import Thread from '../../components/Thread'
@@ -11,7 +13,7 @@ import {
 
 class Threads extends Component {
 	onDownVote = ({ id, vote }) => {
-		this.props.editThread({id, vote})
+	  this.props.editThread({id, vote})
 	}
 
 	onUpvote = ({ id, vote }) => {
@@ -27,7 +29,16 @@ class Threads extends Component {
 		const { threads } = this.props
 
 		return (
-			<div>
+      <div>
+        <h3> Topic List </h3>
+
+        <div>
+          <RaisedButton
+            label="create topic"
+            onClick={() => browserHistory.push('/create')}
+          />
+        </div>
+
 				<ThreadsList>
 					{
 						threads.map((thread, index) => (

@@ -43,6 +43,7 @@ class Thread extends Component {
           <IconButton
             iconClassName="material-icons"
             tooltip="Up Vote"
+            onTouchTap={this.onUpvote}
           >
             keyboard_arrow_up
           </IconButton>
@@ -56,6 +57,7 @@ class Thread extends Component {
           <IconButton
             iconClassName="material-icons"
             tooltip="Down Vote"
+            onTouchTap={this.onDownvote}
           >
             keyboard_arrow_down
           </IconButton>
