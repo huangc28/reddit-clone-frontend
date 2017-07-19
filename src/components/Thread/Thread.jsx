@@ -4,7 +4,6 @@ import styles from './Thread.css'
 
 /**
  * @todo use material for icon button - UI
- * @todo disable downvote button when vote is 0
  */
 class Thread extends Component {
   onDownvote = () => {

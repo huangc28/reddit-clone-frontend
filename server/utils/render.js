@@ -15,7 +15,8 @@ export function renderFullPage (html, initialState) {
     <html>
       <head>
         <title>Universal App</title>
-        <script src="https://use.fontawesome.com/47e3b099c4.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         ${cssBundle}
       </head>
       <body>
