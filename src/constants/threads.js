@@ -1,0 +1,1 @@
+export const THREADS_LIMIT = 10
