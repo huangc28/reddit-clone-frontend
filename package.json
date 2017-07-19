@@ -1,6 +1,6 @@
 {
   "name": "fakereddit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Bryan Huang <huangchiheng@gmail.com>",
   "description": "fake reddit application",
   "main": "index.js",
