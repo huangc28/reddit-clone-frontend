@@ -114,6 +114,7 @@ const reducer = handleActions({
   [createThreadSuccess]: (state, action) => ({
     ...state,
     data: state.data.concat(action.payload.thread),
+    loading: loadingState.READY,
   }),
   [createThreadFailed]: (state, action) => ({
     ...state,
