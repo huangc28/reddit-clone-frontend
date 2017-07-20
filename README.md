@@ -8,9 +8,11 @@
 
 Since I'm using server side rendering, the request flow goes like this:
 
+```
 |---------|      |----------------|      |--------------|
 | Browser | ---> | Frontend Node  | ---> | Backend Node |
 |---------|      |----------------|      |--------------|
+```
 
 > Frontend Node serves as request proxy purpose.
 
