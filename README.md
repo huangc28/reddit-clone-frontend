@@ -36,6 +36,8 @@ After done rendering (componentDidMount) `containers/Threads.jsx`, action is dis
 
 Each click on the Upvote / Downvote icon, an edit action is dispatch along with the payload. After request succeed, renew that specific topic with newly updated topic in the redux store. This will triggered the rerender and consequently update the connected component.
 
+Multiple click events of the Upvote / Downvote will not be executed in queue. In fact, only the last saga will be catched and executed. The fore-forked saga triggerred by click event will be canceled.
+
 ## Create Thread
 
 A create action is dispatched and the request is submitted to the server. A newly created topic will return upon the success of creating topic. Concat the topic to the current redux store to trigger rerender on the list.
