@@ -6,10 +6,9 @@ import { browserHistory } from 'react-router'
 import ThreadsList from '../../components/ThreadsList'
 import Thread from '../../components/Thread'
 import { THREADS_LIMIT } from '../../constants/threads.js'
-import {
-	fetchAllThreads,
-	editThread,
-} from '../../redux/threads'
+import { fetchAllThreadsFlow } from '../../sagas/threads'
+
+import { editThread } from '../../redux/threads'
 
 class Threads extends Component {
 	onDownVote = ({ id, vote }) => {
@@ -18,11 +17,6 @@ class Threads extends Component {
 
 	onUpvote = ({ id, vote }) => {
 		this.props.editThread({id, vote})
-	}
-
-	componentDidMount = () => {
-		// dispatch fetching action.
-		this.props.fetchAllThreads(THREADS_LIMIT)
 	}
 
 	render () {
@@ -56,9 +50,13 @@ class Threads extends Component {
 	}
 }
 
+/**
+ * ssr method for this component.
+ */
+Threads.preload = () => fetchAllThreadsFlow
+
 Threads.propTypes = {
 	editThread: PropTypes.func,
-	fetchAllThreads: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -66,6 +64,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-	fetchAllThreads,
 	editThread,
 })(Threads)

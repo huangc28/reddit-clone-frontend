@@ -5,10 +5,8 @@ import * as apis from '../apis/threads'
 import * as actions from '../redux/threads'
 
 export function * fetchAllThreadsFlow (action) {
-  const { payload: { limit } = {} } = action
-
   try {
-    const response = yield call(apis.fetchAllThreads, limit)
+    const response = yield call(apis.fetchAllThreads)
 
     if (response.error) {
       throw new Error(response.error.message)

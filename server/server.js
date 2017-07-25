@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import { resolve } from 'path'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { renderToString } from 'react-dom/server'
+import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import morgan from 'morgan'
 import webpack from 'webpack'
@@ -79,10 +79,6 @@ if (process.env.NODE_ENV === 'development') {
   }))
 }
 
-if (!__CLIENT__) {
-  global.window = {}
-}
-
 function handleRender (req, res, next) {
   match({
     routes,
@@ -93,26 +89,63 @@ function handleRender (req, res, next) {
     } else if (redirectLocation) {
       res.redirect(302, `${redirectLocation.pathname}${redirectLocation.search}`)
     } else if (renderProps) {
-      const preloadedState = {}
+      let html = ''
+      /**
+       * In order to implement universal rendering,
+       * following approaches have to be done.
+       *
+       *  - add "preload" method for those component that needs ssr
+       *  - run each saga to fetch data from the server
+       *  - get the resulting promises from sagas
+       *  - send back the preloaded state to the browser
+       */
 
-      const store = configureStore(rootReducer, preloadedState)
-      // route is found, prepare html string...
-      const html = renderToString(
-        <Provider store={store}>
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <RouterContext {...renderProps} />
-          </MuiThemeProvider>
-        </Provider>
-      )
+      /**
+       * Find those components that has preloader.
+       */
+      const preloaders = renderProps.components
+        .filter(component => component && component.preload)
+        .reduce((result, component) => result.concat(component.preload), []) // collect each preloader
 
-      // get the initial state from redux store
-      const finalizedState = store.getState()
+      const store = configureStore(rootReducer)
 
-      // render full page along with html and redux store
-      res.send(renderFullPage(html, finalizedState))
-    }
-    // pass on to the next route
-    next()
+      if (preloaders && preloaders.length > 0) {
+
+        // run all sagas
+        const tasks = preloaders.map(preloader => store.runSagas(preloader()))
+
+        // get the resulting promises for all sagas
+        const tasksEndPromises = tasks.map(t => t.done)
+
+        // makesure all promises are "resolve"
+        Promise.all(tasksEndPromises).then(() => {
+          html = renderToStaticMarkup(
+            <Provider store={store}>
+              <MuiThemeProvider muiTheme={muiTheme}>
+                <RouterContext {...renderProps} />
+              </MuiThemeProvider>
+            </Provider>
+          )
+
+          res.send(renderFullPage(html, store.getState()))
+        })
+        .catch(e => {
+          res.status(500).send('Server side rendering error')
+        })
+      } else { // no preloader is found
+        html = renderToStaticMarkup(
+          <Provider store={store}>
+            <MuiThemeProvider muiTheme={muiTheme}>
+              <RouterContext {...renderProps} />
+            </MuiThemeProvider>
+          </Provider>
+        )
+
+        res.send(rednerFullPage(html, store.getState()))
+      }
+    } else {
+      res.status(404).send('page not found')
+    } 
   })
 }
 

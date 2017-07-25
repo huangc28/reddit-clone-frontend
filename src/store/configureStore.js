@@ -34,5 +34,8 @@ export default function configureStore (rootReducer, preloadedState) {
     })
   }
 
+  // we want to be able to run sagas on the server side
+  store.runSagas = sagaMiddleware.run
+
   return store
 }
