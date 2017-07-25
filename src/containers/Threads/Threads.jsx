@@ -11,6 +11,11 @@ import { fetchAllThreadsFlow } from '../../sagas/threads'
 import { editThread } from '../../redux/threads'
 
 class Threads extends Component {
+	static preload () {
+		// ssr method for this component.
+		return fetchAllThreadsFlow
+	}
+
 	onDownVote = ({ id, vote }) => {
 	  this.props.editThread({id, vote})
 	}
@@ -49,11 +54,6 @@ class Threads extends Component {
 		)
 	}
 }
-
-/**
- * ssr method for this component.
- */
-Threads.preload = () => fetchAllThreadsFlow
 
 Threads.propTypes = {
 	editThread: PropTypes.func,
