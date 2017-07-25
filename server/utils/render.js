@@ -3,7 +3,7 @@ import { resolve } from 'path'
 export const publicPath = resolve(__dirname, '../..', 'build')
 export const staticify = require('staticify')(publicPath) // eslint-disable-line global-require
 
-export function renderFullPage (html, initialState) {
+export function renderFullPage (html, initialState = {}) {
   const cssBundle = process.env.NODE_ENV === 'production'
     ? `<link
         rel="stylesheet"
