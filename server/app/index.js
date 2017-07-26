@@ -131,15 +131,8 @@ function handleRender (req, res, next) {
           res.status(500).send('Server side rendering error')
         })
       } else { // no preloader is found
-        html = renderToStaticMarkup(
-          <Provider store={store}>
-            <MuiThemeProvider muiTheme={muiTheme}>
-              <RouterContext {...renderProps} />
-            </MuiThemeProvider>
-          </Provider>
-        )
-
-        res.send(rednerFullPage(html, store.getState()))
+        // let the frontend render, there is no point for server side rendering.
+        res.send(rednerFullPage('', store.getState()))
       }
     } else {
       res.status(404).send('page not found')

@@ -8,7 +8,10 @@ import Thread from '../../components/Thread'
 import { THREADS_LIMIT } from '../../constants/threads.js'
 import { fetchAllThreadsFlow } from '../../sagas/threads'
 
-import { editThread } from '../../redux/threads'
+import {
+	editThread,
+	fetchAllThreads,
+} from '../../redux/threads'
 
 class Threads extends Component {
 	static preload () {
@@ -22,6 +25,10 @@ class Threads extends Component {
 
 	onUpvote = ({ id, vote }) => {
 		this.props.editThread({id, vote})
+	}
+
+	componentDidMount = () => {
+		this.props.fetchAllThreads()
 	}
 
 	render () {
@@ -57,6 +64,7 @@ class Threads extends Component {
 
 Threads.propTypes = {
 	editThread: PropTypes.func,
+	fetchAllThreads: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -65,4 +73,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
 	editThread,
+	fetchAllThreads,
 })(Threads)
