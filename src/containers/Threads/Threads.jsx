@@ -9,32 +9,32 @@ import { THREADS_LIMIT } from '../../constants/threads.js'
 import { fetchAllThreadsFlow } from '../../sagas/threads'
 
 import {
-	editThread,
-	fetchAllThreads,
+  editThread,
+  fetchAllThreads,
 } from '../../redux/threads'
 
 class Threads extends Component {
-	static preload () {
-		// ssr method for this component.
-		return fetchAllThreadsFlow
-	}
+  static preload () {
+    // ssr method for this component.
+    return fetchAllThreadsFlow
+  }
 
-	onDownVote = ({ id, vote }) => {
-	  this.props.editThread({id, vote})
-	}
+  onDownVote = ({ id, vote }) => {
+    this.props.editThread({id, vote})
+  }
 
-	onUpvote = ({ id, vote }) => {
-		this.props.editThread({id, vote})
-	}
+  onUpvote = ({ id, vote }) => {
+    this.props.editThread({id, vote})
+  }
 
-	componentDidMount = () => {
-		this.props.fetchAllThreads()
-	}
+  componentDidMount = () => {
+    this.props.fetchAllThreads()
+  }
 
-	render () {
-		const { threads } = this.props
+  render () {
+    const { threads } = this.props
 
-		return (
+    return (
       <div>
         <h3> Topic List </h3>
 
@@ -45,33 +45,33 @@ class Threads extends Component {
           />
         </div>
 
-				<ThreadsList>
-					{
-						threads.map((thread, index) => (
-							<Thread
-								key={index}
-								thread={thread}
-								onUpvote={this.onUpvote}
-								onDownvote={this.onDownVote}
-							/>
-						))
-					}
-				</ThreadsList>
-			</div>
-		)
-	}
+        <ThreadsList>
+          {
+            threads.map((thread, index) => (
+              <Thread
+                key={index}
+                thread={thread}
+                onUpvote={this.onUpvote}
+                onDownvote={this.onDownVote}
+              />
+            ))
+          }
+        </ThreadsList>
+      </div>
+    )
+  }
 }
 
 Threads.propTypes = {
-	editThread: PropTypes.func,
-	fetchAllThreads: PropTypes.func,
+  editThread: PropTypes.func,
+  fetchAllThreads: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
-	threads: state.threads.data,
+  threads: state.threads.data,
 })
 
 export default connect(mapStateToProps, {
-	editThread,
-	fetchAllThreads,
+  editThread,
+  fetchAllThreads,
 })(Threads)
