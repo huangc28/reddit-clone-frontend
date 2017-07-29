@@ -5,15 +5,11 @@ import styles from './App.css'
 
 injectTapEventPlugin()
 
-class App extends Component {
-	render () {
-		return (
-      <div>
-    		{this.props.children}
-  		</div>
-		)
-	}
-}
+const App = () => (
+  <div>
+    {this.props.children}
+  </div>
+)
 
 App.propTypes = {
   children: PropTypes.node,
